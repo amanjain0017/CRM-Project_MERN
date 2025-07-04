@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const User = require("./models/userModel");
+const User = require("./models/userModel"); // Assuming models/userModel.js is directly inside server/models/
 
-dotenv.config({ path: "./server/.env" });
+dotenv.config();
 
 const users = [
   {
@@ -20,6 +20,13 @@ const users = [
 
 const seedDatabase = async () => {
   try {
+    console.log(
+      "Attempting to connect with MONGO_URI:",
+      process.env.MONGO_URI
+        ? "***** (URI loaded)"
+        : "Undefined (URI not loaded)"
+    );
+
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
