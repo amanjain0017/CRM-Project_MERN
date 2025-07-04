@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BACKEND_URL = "http://localhost:4000"; // Ensure this matches your backend URL
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
 
 // Async Thunk to fetch leads for a specific employee
 export const fetchEmployeeLeads = createAsyncThunk(

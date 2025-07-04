@@ -5,7 +5,7 @@ import axios from "axios";
 
 import "./SettingsStyle.css";
 
-const BACKEND_URL = "http://localhost:4000"; // for api calls
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:4000";
 
 const Settings = () => {
   //redux state and dispatch hooks

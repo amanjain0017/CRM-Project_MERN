@@ -1,7 +1,9 @@
+require("dotenv").config();
+
 const mongoose = require("mongoose");
 
 mongoose
-  .connect("mongodb://localhost:27017/salesCRM")
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connection is Established with DB");
   })
