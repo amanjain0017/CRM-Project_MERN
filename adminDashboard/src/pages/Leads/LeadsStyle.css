@@ -1,0 +1,128 @@
+.leads-page {
+  position: relative;
+  padding: 0 20px;
+}
+
+.leads-actions {
+  position: absolute;
+  top: -49px;
+  right: 30px;
+}
+
+.upload-csv-button {
+  padding: 10px 16px;
+  background-color: #949494;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.upload-csv-button:hover {
+  background-color: #565656;
+}
+
+.upload-csv-button:focus {
+  outline: none;
+}
+
+.loading-message,
+.error-message,
+.no-leads-message {
+  text-align: center;
+  padding: 32px;
+  font-size: 18px;
+  color: #555;
+}
+
+.error-message {
+  color: #dc2626;
+}
+
+.leads-table-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.leads-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.leads-table thead tr {
+  background-color: #f8f8f8;
+  color: #666;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.leads-table th,
+.leads-table td {
+  padding: 12px 20px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.leads-table tbody tr:hover {
+  background-color: #fdfdfd;
+}
+
+/* Sortable Header Styles */
+.sortable-header {
+  cursor: pointer;
+  position: relative;
+  padding-right: 25px; /* Space for the arrow */
+}
+
+.sort-indicator {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #888;
+}
+
+.sortable-header.asc .sort-indicator {
+  color: #3b82f6; /* Blue for active sort */
+}
+
+.sortable-header.desc .sort-indicator {
+  color: #3b82f6; /* Blue for active sort */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .leads-page {
+    padding: 16px;
+    height: auto; /* Allow height to adjust on smaller screens */
+  }
+
+  .leads-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .upload-csv-button {
+    width: 100%;
+  }
+
+  .leads-table th,
+  .leads-table td {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .leads-page {
+    padding: 12px;
+  }
+}

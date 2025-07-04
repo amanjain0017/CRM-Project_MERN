@@ -1,0 +1,169 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-family: "Inter", sans-serif;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  animation: fadeInScale 0.3s ease-out forwards;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.modal-title.delete-title {
+  color: #dc2626;
+}
+
+.modal-message {
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 75%;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-input:focus {
+  outline: none;
+}
+
+.input-error {
+  border-color: #ef4444;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 12px;
+}
+
+.info-message {
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  gap: 10px; /* Space between buttons */
+  margin-top: 20px;
+}
+
+.save-button,
+.confirm-delete-button,
+.cancel-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.save-button {
+  background-color: #3b82f6; /* Blue-500 */
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #2563eb; /* Blue-600 */
+}
+
+.confirm-delete-button {
+  background-color: #ef4444; /* Red-500 */
+  color: white;
+}
+
+.confirm-delete-button:hover {
+  background-color: #dc2626; /* Red-600 */
+}
+
+.cancel-button {
+  background-color: #e5e7eb; /* Gray-200 */
+  color: #4b5563; /* Gray-700 */
+}
+
+.cancel-button:hover {
+  background-color: #d1d5db; /* Gray-300 */
+}
+
+/* Responsive adjustments for modals */
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 20px;
+    margin: 20px;
+  }
+  .modal-title {
+    font-size: 20px;
+  }
+  .modal-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .save-button,
+  .confirm-delete-button,
+  .cancel-button {
+    width: 100%;
+  }
+}

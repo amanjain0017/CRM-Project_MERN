@@ -1,0 +1,252 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-family: "Inter", sans-serif;
+}
+
+.csv-upload-modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 550px; /* Adjusted max-width to fit design */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between sections */
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.close-button:hover {
+  color: #333;
+}
+
+.h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.modal-subtitle {
+  font-size: 16px;
+  color: #666;
+}
+
+.drop-area {
+  border: 2px dashed #737373;
+  border-radius: 8px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.drop-area.drag-over {
+  border-color: #007bff;
+  background-color: #e6f7ff; /* Light blue background on drag over */
+}
+
+.folder-icon {
+  width: 60px;
+  height: 60px;
+  background-color: #e0e0e0; /* Placeholder for the folder icon */
+  border-radius: 8px;
+  /* You can replace this with an SVG or FontAwesome icon */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: #666;
+  /* Example for a simple folder icon using pseudo-elements or background-image */
+  /* For a real icon, you'd use an SVG or FontAwesome */
+  position: relative;
+}
+.folder-icon::before {
+  content: "\1F4C1"; /* Unicode folder emoji as a placeholder */
+  font-size: 40px;
+  position: absolute;
+}
+
+.drop-area p {
+  margin: 0;
+  color: #555;
+  font-size: 15px;
+}
+
+.or-separator {
+  font-weight: 500;
+  color: #888;
+  position: relative;
+  margin: 10px 0;
+}
+.or-separator::before,
+.or-separator::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%; /* Adjust line length */
+  height: 1px;
+  background-color: #e0e0e0;
+}
+.or-separator::before {
+  left: 0;
+}
+.or-separator::after {
+  right: 0;
+}
+
+.browse-files-button {
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.browse-files-button:hover {
+  background-color: #e0e0e0;
+  border-color: #bbb;
+}
+
+.selected-file-display {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 12px 15px;
+  font-size: 15px;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px; /* Space after drop area */
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.cancel-button {
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancel-button:hover {
+  background-color: #dee2e6;
+}
+
+.next-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.next-button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.next-button:disabled {
+  background-color: #a0cffc; /* Lighter blue when disabled */
+  cursor: not-allowed;
+}
+
+.upload-status-message {
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.upload-status-message.pending {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.upload-status-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.upload-status-message.failed {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.upload-status-message.failed ul {
+  margin-top: 5px;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .csv-upload-modal-content {
+    padding: 20px;
+    margin: 20px;
+    gap: 15px;
+  }
+  .modal-title {
+    font-size: 20px;
+  }
+  .modal-subtitle {
+    font-size: 14px;
+  }
+  .drop-area {
+    padding: 20px;
+    gap: 10px;
+  }
+  .browse-files-button,
+  .cancel-button,
+  .next-button {
+    width: 100%;
+    padding: 10px;
+  }
+  .modal-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

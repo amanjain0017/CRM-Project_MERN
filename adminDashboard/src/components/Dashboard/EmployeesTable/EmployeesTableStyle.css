@@ -1,0 +1,138 @@
+.dashboard-employees-table-section {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 18px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 300px;
+}
+
+.dashboard-section-title {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #343a40;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.dashboard-employees-table-container {
+  flex-grow: 1;
+  overflow-y: scroll; /* Enable vertical scrolling */
+  overflow-x: auto;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  min-height: 0;
+}
+
+.dashboard-employees-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.dashboard-employees-table th,
+.dashboard-employees-table td {
+  padding: 5px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.dashboard-employees-table th {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.dashboard-employees-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.dashboard-employees-table tbody tr:hover {
+  background-color: #fafafa;
+}
+
+.employee-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.employee-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.initials-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #8ef693;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 0.85em;
+  flex-shrink: 0;
+}
+
+.name-email {
+  display: flex;
+  flex-direction: column;
+}
+
+.employee-full-name {
+  font-weight: 500;
+  color: #343a40;
+}
+
+.employee-email {
+  font-size: 0.8em;
+  color: #6c757d;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+  text-align: center;
+}
+
+.status-active {
+  background-color: #28a745;
+}
+
+.status-inactive {
+  background-color: #dc3545;
+}
+
+/* Loading and Error Messages */
+.loading-message,
+.error-message,
+.no-employees-message {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1em;
+  color: #495057;
+  background-color: #e9ecef;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}

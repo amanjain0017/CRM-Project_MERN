@@ -1,0 +1,106 @@
+.schedule-page-content {
+  padding: 100px 20px 80px 20px;
+  background-color: #f0f2f5;
+  flex-grow: 1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.schedule-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.search-input,
+.filter-select {
+  flex-grow: 1;
+  padding: 10px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.9em;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus,
+.filter-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+.scheduled-leads-list {
+  flex-grow: 1; /* Allows the list to take remaining vertical space */
+  overflow-y: auto; /* Make the leads list scrollable internally */
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.no-scheduled-leads-message {
+  text-align: center;
+  color: #6c757d;
+  padding: 20px;
+  font-size: 1em;
+}
+
+.scheduled-lead-card {
+  background-color: #eeeeee;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.scheduled-lead-card:hover {
+  background-color: #dfdfdf;
+}
+
+.scheduled-lead-card:last-child {
+  margin-bottom: 0;
+}
+
+.scheduled-lead-card .lead-name {
+  font-size: 0.8em;
+  font-weight: 700;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.scheduled-lead-card .lead-contact,
+.scheduled-lead-card .lead-schedule,
+.scheduled-lead-card .lead-type {
+  font-size: 0.75em;
+  color: #555;
+  margin: 0;
+}
+
+/* General messages (loading, error) - consistent with other pages */
+.loading-screen,
+.error-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: #333;
+  font-size: 1.2em;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.error-screen {
+  color: #dc3545;
+}

@@ -1,0 +1,133 @@
+.profile-page-content {
+  padding: 100px 10px 80px 10px;
+  background-color: #f0f2f5;
+  flex-grow: 1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.logout-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.8em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+  width: 100%;
+  margin-top: 40px;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+.profile-section {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 14px;
+
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  min-height: 100px;
+  min-width: 300px;
+}
+
+.section-heading {
+  font-size: 1.3em;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-weight: 600;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.form-group {
+  text-align: left;
+  flex-shrink: 0;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.75em;
+  color: #555;
+  font-weight: 600;
+}
+
+.form-input {
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 1em;
+  box-sizing: border-box;
+  font-size: 0.75rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+}
+
+.form-input.disabled {
+  background-color: #e9ecef;
+  cursor: not-allowed;
+  color: #6c757d;
+  opacity: 0.8;
+}
+
+.profile-button {
+  background-color: #0a81ff;
+  color: white;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.8em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  margin-top: 10px;
+  flex-shrink: 0;
+}
+
+.profile-button:hover {
+  background-color: #0253a9;
+}
+
+.loading-screen,
+.error-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 1000;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.error-screen {
+  color: #dc3545;
+}

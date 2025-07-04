@@ -1,0 +1,108 @@
+.settings-page {
+  background-color: #ffffff;
+  border-radius: 12px;
+  margin: 10px 30px;
+  font-family: "Inter", sans-serif;
+  border: 2px solid #d9d9d9;
+}
+
+.settings-heading {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6f6f6f;
+  text-align: left;
+  border-bottom: 2px solid #d9d9d9;
+  padding: 14px 25px 4px 14px;
+  margin: 0 10px;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 80px;
+  padding: 20px 45px;
+}
+
+.settings-form .form-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+  color: #555555;
+  margin-bottom: 4px;
+}
+
+.form-input {
+  width: 50%;
+  padding: 8px 12px;
+  border: 1px solid #969696;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #4e4e4e;
+}
+
+.read-only-input {
+  background-color: #f0f0f0;
+  cursor: default;
+}
+
+.form-actions {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.save-button {
+  padding: 12px 48px;
+  background-color: #d9d9d9;
+  color: #636060;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.save-button:hover:not(:disabled) {
+  background-color: rgb(134, 134, 134);
+  color: white;
+}
+
+.save-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.save-status-message {
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.save-status-message.saving {
+  background-color: #e0f2fe;
+  color: #2563eb;
+}
+
+.save-status-message.success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.save-status-message.error {
+  background-color: #fee2e2;
+  color: #dc2626;
+}

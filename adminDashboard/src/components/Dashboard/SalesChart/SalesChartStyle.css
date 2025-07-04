@@ -1,0 +1,77 @@
+.sales-chart-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  flex-shrink: 0;
+}
+
+.dashboard-section-title {
+  font-size: 1.5em; /* 24px */
+  font-weight: 700;
+  color: #343a40;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.chart-wrapper {
+  flex-grow: 1;
+  min-height: 250px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-placeholder {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  color: #6c757d;
+  font-style: italic;
+  font-size: 0.9em;
+  width: 100%;
+  height: 100%;
+}
+
+.chart-placeholder p {
+  margin: 5px 0;
+}
+
+/* Specific styles for Recharts tooltip */
+.recharts-tooltip-wrapper {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  padding: 10px !important;
+}
+
+.recharts-tooltip-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.recharts-tooltip-item {
+  color: #007bff !important; /* Matches the bar color */
+  font-weight: 500;
+}
+
+/* Error message styling for charts */
+.chart-placeholder.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

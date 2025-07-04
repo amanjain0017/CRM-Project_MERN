@@ -1,0 +1,63 @@
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden; /* Prevent body and html from scrolling */
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+/* Wrapper to contain the entire application UI */
+.employee-app-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  background-color: #ffffff;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Main content area, between header and bottom nav */
+.app-main-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 400px;
+}
+
+.page-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  color: #6c757d;
+  font-size: 1.1em;
+  text-align: center;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  margin: 20px;
+  padding: 20px;
+}
+
+.auth-required-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 1.2em;
+  color: #dc3545;
+  text-align: center;
+  padding: 20px;
+}

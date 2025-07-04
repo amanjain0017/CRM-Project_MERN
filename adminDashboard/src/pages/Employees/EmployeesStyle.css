@@ -1,0 +1,302 @@
+.employee-page {
+  position: relative;
+  padding: 0 20px;
+}
+
+.employees-list {
+  background-color: #ffffff;
+  border-radius: 16px;
+  font-family: "Inter", sans-serif;
+}
+
+.employees-actions {
+  position: absolute;
+  top: -49px;
+  right: 30px;
+}
+
+.list-pagination-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.add-employee-button {
+  padding: 10px 16px;
+  background-color: #949494;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.add-employee-button:hover {
+  background-color: #565656;
+}
+
+.add-employee-button:focus {
+  outline: none;
+}
+
+.loading-message,
+.error-message,
+.no-employees-message {
+  text-align: center;
+  padding: 32px;
+  font-size: 18px;
+  color: #555;
+}
+
+.error-message {
+  color: red;
+}
+
+.employees-table-container {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.employees-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.employees-table thead tr {
+  background-color: #f8f8f8;
+  color: #5f5f5f;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.employees-table th,
+.employees-table td {
+  padding: 12px 20px; /* Adjusted padding */
+  text-align: center;
+  border-bottom: 1px solid #f0f0f0; /* Lighter border for rows */
+}
+
+.employees-table th.text-center,
+.employees-table td.actions-cell {
+  text-align: center;
+}
+
+.employees-table tbody tr:hover {
+  background-color: #fdfdfd;
+}
+
+/* Employee Name Cell Styling */
+.employee-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.employee-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.initials-circle {
+  width: 40px;
+  height: 40px;
+  background-color: rgb(253, 218, 129);
+  color: #666;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.name-email {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.employee-full-name {
+  font-weight: 500;
+  color: #333;
+  font-size: 15px;
+}
+
+.employee-email {
+  font-size: 13px;
+  color: #777;
+}
+
+.customEmployeeId {
+  font-size: 14px;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  min-width: 70px;
+  text-align: center;
+}
+
+.status-active {
+  background-color: #e6ffe6;
+  color: #008000;
+}
+
+.status-inactive {
+  background-color: #ffe6e6;
+  color: #cc0000;
+}
+
+.actions-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.edit-button,
+.delete-button {
+  font-weight: 500;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  transition: color 0.2s ease-in-out;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  padding: 10px 0;
+  margin-top: 50px;
+}
+
+.pagination-button {
+  padding: 8px 16px;
+  background-color: #f0f0f0; /* Lighter gray */
+  color: #555;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f8f8f8;
+  color: #999;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #e5e5e5;
+  border-color: #d0d0d0;
+}
+
+.pagination-info {
+  color: #555;
+  font-size: 15px;
+}
+
+/* Sortable Header Styles */
+.sortable-header {
+  cursor: pointer;
+  position: relative;
+  padding-right: 25px; /* Space for the arrow */
+}
+
+.sort-indicator {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #888;
+}
+
+.sortable-header.asc .sort-indicator {
+  color: #3b82f6; /* Blue for active sort */
+}
+
+.sortable-header.desc .sort-indicator {
+  color: #3b82f6; /* Blue for active sort */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .employees-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* REMOVED: search-bar-container width adjustment for mobile */
+  /* .search-bar-container {
+        width: 100%;
+        margin-bottom: 16px;
+    } */
+
+  .add-employee-button {
+    width: 100%;
+  }
+
+  .employees-table th,
+  .employees-table td {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .employee-name-cell {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .employee-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .initials-circle {
+    width: 35px;
+    height: 35px;
+    font-size: 12px;
+  }
+
+  .employee-full-name {
+    font-size: 14px;
+  }
+
+  .employee-email {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .employees-page {
+    padding: 16px;
+  }
+
+  .employees-heading {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .pagination-controls {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

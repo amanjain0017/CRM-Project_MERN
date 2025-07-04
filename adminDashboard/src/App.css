@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden; /* Prevent overall page scroll, content will scroll within designated areas */
+}
+
+#root {
+  display: flex;
+  min-height: 100vh; /* Ensure root takes full viewport height */
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content-area {
+  width: 85vw;
+  background-color: white;
+}
+
+.component-navigate {
+  padding: 0px 20px;
+  color: #676666;
+  font-weight: 600;
+  margin: 20px;
+}

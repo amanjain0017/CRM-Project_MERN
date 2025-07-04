@@ -1,0 +1,67 @@
+.recent-activity-feed-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 400px;
+  flex-shrink: 0;
+}
+
+.dashboard-section-title {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #343a40;
+  margin-bottom: 20px;
+  text-align: left;
+  flex-shrink: 0;
+}
+
+.activity-list {
+  flex-grow: 1;
+  overflow-y: scroll;
+  max-height: 400px;
+  padding-right: 10px;
+  min-height: 0;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 0.95em;
+}
+
+.activity-text {
+  flex-grow: 1;
+  color: #495057;
+  margin-right: 15px;
+  line-height: 1.4;
+}
+
+.activity-time {
+  color: #6c757d;
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+
+/* Loading, Error, No Activities Messages */
+.loading-message,
+.error-message,
+.no-activities-message {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.1em;
+  color: #495057;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 10px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
