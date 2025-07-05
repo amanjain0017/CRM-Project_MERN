@@ -1,5 +1,5 @@
 .schedule-page-content {
-  padding: 100px 20px 80px 20px;
+  padding: 108px 20px 67px 20px;
   background-color: #f0f2f5;
   flex-grow: 1;
   box-sizing: border-box;
@@ -23,7 +23,7 @@
   border-radius: 8px;
   font-size: 0.9em;
   box-sizing: border-box;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
 .search-input:focus,
@@ -34,13 +34,14 @@
 }
 
 .scheduled-leads-list {
-  flex-grow: 1; /* Allows the list to take remaining vertical space */
-  overflow-y: auto; /* Make the leads list scrollable internally */
+  flex-grow: 1;
+  overflow-y: scroll;
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   padding: 15px;
   margin-bottom: 10px;
+  min-width: 305px;
 }
 
 .no-scheduled-leads-message {

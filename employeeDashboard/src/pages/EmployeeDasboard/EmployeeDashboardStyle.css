@@ -185,8 +185,8 @@ body {
   background-color: #f8f9fa;
   border-radius: 12px;
   padding: 15px;
-
-  max-height: 150px;
+  min-height: 17vh;
+  max-height: 22vh;
   overflow-y: scroll;
   flex-shrink: 0;
 }
@@ -247,8 +247,9 @@ body {
   border-radius: 12px;
   padding: 15px;
   flex-grow: 1;
-  overflow-y: auto;
-  min-height: 50px;
+  overflow-y: scroll;
+  min-height: 20vh;
+  max-height: 22vh;
 }
 
 .activity-feed-item {

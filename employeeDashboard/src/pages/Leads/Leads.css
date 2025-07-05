@@ -7,7 +7,8 @@
   flex-direction: column;
   justify-content: center;
   height: 80%;
-  margin-top: 12vh;
+  margin-top: 11vh;
+  min-height: 82vh;
 }
 
 .leads-controls {
@@ -35,10 +36,10 @@
 
 .leads-list {
   flex-grow: 1;
+  padding: 10px;
   overflow-y: auto;
   background-color: #ffffff;
   border-radius: 12px;
-  padding: 15px;
 }
 
 .no-leads-message {

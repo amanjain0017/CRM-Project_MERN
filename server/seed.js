@@ -1,6 +1,7 @@
+//this file is to insert the admin user to the db
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const User = require("./models/userModel"); // Assuming models/userModel.js is directly inside server/models/
+const User = require("./models/userModel");
 
 dotenv.config();
 
@@ -22,12 +23,12 @@ const seedDatabase = async () => {
   try {
     console.log(
       "Attempting to connect with MONGO_URI:",
-      process.env.MONGO_URI
+      process.env.MONGODB_URI
         ? "***** (URI loaded)"
         : "Undefined (URI not loaded)"
     );
 
-    await mongoose.connect(process.env.MONGO_URI, {
+    await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
