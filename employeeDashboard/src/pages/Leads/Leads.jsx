@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchEmployeeLeads,
   updateLead,
-  setSearchQuery,
   setFilterStatus,
   clearLeadsError,
 } from "../../redux/slices/leadSlice";
@@ -11,9 +10,12 @@ import "./Leads.css";
 
 const LeadsPage = ({ employeeId }) => {
   const dispatch = useDispatch();
-  const { leads, isLoading, error, searchQuery, filterStatus } = useSelector(
+  const { leads, isLoading, error, filterStatus } = useSelector(
     (state) => state.leads
   );
+
+  //for managning local search bar
+  const [localSearch, setLocalSearch] = useState("");
 
   // managing inline dropdowns/popovers
   const [activeUpdateDropdownId, setActiveUpdateDropdownId] = useState(null);
@@ -39,17 +41,17 @@ const LeadsPage = ({ employeeId }) => {
       dispatch(
         fetchEmployeeLeads({
           employeeId,
-          search: searchQuery,
+          search: localSearch,
           status: filterStatus,
         })
       );
     }
-  }, [dispatch, employeeId, searchQuery, filterStatus]);
+  }, [dispatch, employeeId, localSearch, filterStatus]);
 
   // Clear error when component mounts or search/filter changes
   useEffect(() => {
     dispatch(clearLeadsError());
-  }, [dispatch, searchQuery, filterStatus]);
+  }, [dispatch, filterStatus]);
 
   // Handle clicks outside
   useEffect(() => {
@@ -76,7 +78,8 @@ const LeadsPage = ({ employeeId }) => {
   }, []);
 
   const handleSearchChange = (e) => {
-    dispatch(setSearchQuery(e.target.value));
+    const value = e.target.value;
+    setLocalSearch(value);
   };
 
   const handleFilterChange = (e) => {
@@ -115,7 +118,6 @@ const LeadsPage = ({ employeeId }) => {
           dispatch(
             fetchEmployeeLeads({
               employeeId,
-              search: searchQuery,
               status: filterStatus,
             })
           );
@@ -209,7 +211,6 @@ const LeadsPage = ({ employeeId }) => {
         dispatch(
           fetchEmployeeLeads({
             employeeId,
-            search: searchQuery,
             status: filterStatus,
           })
         );
@@ -218,10 +219,6 @@ const LeadsPage = ({ employeeId }) => {
         alert(`Failed to schedule activity: ${err}`);
       });
   };
-
-  if (isLoading && leads.length === 0) {
-    return <div className="loading-screen">Loading leads...</div>;
-  }
 
   if (error) {
     return <div className="error-screen">Error: {error}</div>;
@@ -233,7 +230,7 @@ const LeadsPage = ({ employeeId }) => {
         <input
           type="text"
           placeholder="Search leads..."
-          value={searchQuery}
+          value={localSearch}
           onChange={handleSearchChange}
           className="search-input"
         />

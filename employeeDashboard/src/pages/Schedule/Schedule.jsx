@@ -1,8 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchEmployeeLeads,
-  setSearchQuery,
   setScheduleFilterType,
   clearLeadsError,
 } from "../../redux/slices/leadSlice";
@@ -10,8 +9,12 @@ import "./Schedule.css";
 
 const SchedulePage = ({ employeeId }) => {
   const dispatch = useDispatch();
-  const { leads, isLoading, error, searchQuery, scheduleFilterType } =
-    useSelector((state) => state.leads);
+  const { leads, error, scheduleFilterType } = useSelector(
+    (state) => state.leads
+  );
+
+  //for managning local search bar
+  const [localSearch, setLocalSearch] = useState("");
 
   // Filter leads to show scheduled ones and apply 'Today' filter
   const filteredScheduledLeads = leads.filter((lead) => {
@@ -32,41 +35,25 @@ const SchedulePage = ({ employeeId }) => {
       dispatch(
         fetchEmployeeLeads({
           employeeId,
-          search: searchQuery,
+          search: localSearch,
           isScheduledOnly: true,
         })
       );
     }
-  }, [dispatch, employeeId, searchQuery]);
-
-  // Re-fetch when filter type changes
-  useEffect(() => {
-    if (employeeId) {
-      dispatch(
-        fetchEmployeeLeads({
-          employeeId,
-          search: searchQuery,
-          isScheduledOnly: true,
-        })
-      );
-    }
-  }, [dispatch, employeeId, searchQuery, scheduleFilterType]);
+  }, [dispatch, employeeId, localSearch, scheduleFilterType]);
 
   useEffect(() => {
     dispatch(clearLeadsError());
-  }, [dispatch, searchQuery, scheduleFilterType]);
+  }, [dispatch, scheduleFilterType]);
 
   const handleSearchChange = (e) => {
-    dispatch(setSearchQuery(e.target.value));
+    const value = e.target.value;
+    setLocalSearch(value);
   };
 
   const handleFilterChange = (e) => {
     dispatch(setScheduleFilterType(e.target.value));
   };
-
-  if (isLoading && leads.length === 0) {
-    return <div className="loading-screen">Loading schedule...</div>;
-  }
 
   if (error) {
     return <div className="error-screen">Error: {error}</div>;
@@ -78,7 +65,7 @@ const SchedulePage = ({ employeeId }) => {
         <input
           type="text"
           placeholder="Search leads..."
-          value={searchQuery}
+          value={localSearch}
           onChange={handleSearchChange}
           className="search-input"
         />
@@ -109,7 +96,7 @@ const SchedulePage = ({ employeeId }) => {
           ))
         ) : (
           <p className="no-scheduled-leads-message">
-            No scheduled leads found for this filter.
+            No scheduled leads found.
           </p>
         )}
       </div>
