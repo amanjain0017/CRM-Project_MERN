@@ -21,7 +21,7 @@ const Header = ({ pageTitle, employeeProfile }) => {
         {pageTitle === "Home" && employeeProfile?.firstName ? (
           // Display dynamic greeting and employee name for Home page
           <>
-            <p className="header-page-title-greeting">
+            <p className="header-page-title">
               {getGreeting()}, {employeeProfile.firstName}
             </p>
           </>

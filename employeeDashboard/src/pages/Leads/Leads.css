@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: center;
   height: 80%;
-  margin-top: 11vh;
+  margin-top: 12vh;
   min-height: 82vh;
 }
 
@@ -26,7 +26,7 @@
   border-radius: 8px;
   font-size: 0.9em;
   box-sizing: border-box;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
 .search-input:focus,
@@ -39,7 +39,7 @@
   padding: 10px;
   overflow-y: auto;
   background-color: #ffffff;
-  border-radius: 12px;
+  border-radius: 6px;
 }
 
 .no-leads-message {

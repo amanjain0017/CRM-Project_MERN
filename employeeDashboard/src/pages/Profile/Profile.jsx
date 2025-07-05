@@ -54,6 +54,7 @@ const Profile = ({ employeeId, employeeProfile }) => {
               value={employeeProfile?.customEmployeeId || "N/A"}
               disabled
               className="form-input disabled"
+              required
             />
           </div>
 
@@ -65,8 +66,10 @@ const Profile = ({ employeeId, employeeProfile }) => {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               className="form-input"
+              required
             />
           </div>
+
           <div className="form-group">
             <label htmlFor="lastName">Last Name</label>
             <input
@@ -75,8 +78,10 @@ const Profile = ({ employeeId, employeeProfile }) => {
               value={employeeProfile?.lastName || "N/A"}
               className="form-input disabled"
               disabled
+              required
             />
           </div>
+
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -85,6 +90,7 @@ const Profile = ({ employeeId, employeeProfile }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="form-input"
+              required
             />
           </div>
 
@@ -96,6 +102,7 @@ const Profile = ({ employeeId, employeeProfile }) => {
               value={employeeProfile?.location || "N/A"}
               disabled
               className="form-input disabled"
+              required
             />
           </div>
 

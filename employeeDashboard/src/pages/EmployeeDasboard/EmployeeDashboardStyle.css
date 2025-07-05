@@ -13,7 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 100px 20px;
+  padding: 100px 20px 100px 20px;
   box-sizing: border-box;
   height: 100%;
 }
@@ -34,22 +34,41 @@ body {
   right: 10px;
 }
 
-.greeting-name {
-  font-size: 1.5em;
-  font-weight: 700;
-  color: #333;
-  margin-top: 0;
-  margin-bottom: 20px;
+.message-display-section {
+  min-height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px 0px 5px 0px;
+}
+
+.app-message {
+  padding: 6px 0;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0.8;
+  width: 325px;
+  border-radius: 5px;
+  margin-top: 8px;
   text-align: center;
-  flex-shrink: 0;
+}
+
+.app-message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.app-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
 .attendance-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 3px;
   justify-content: center;
-  margin: 10px 0;
+  margin: 8px 0;
   flex-shrink: 0;
 }
 
@@ -114,7 +133,7 @@ body {
 
 /* General Section Title */
 .section-title {
-  font-size: 1.3em;
+  font-size: 0.8em;
   font-weight: 600;
   color: #333;
   margin: 5px 10px;
@@ -123,7 +142,6 @@ body {
 
 /* Timings Section */
 .timings-section {
-  margin-bottom: 20px;
   flex-shrink: 0;
 }
 
@@ -185,14 +203,12 @@ body {
   background-color: #f8f9fa;
   border-radius: 12px;
   padding: 15px;
-  min-height: 17vh;
-  max-height: 22vh;
+  max-height: 17vh;
   overflow-y: scroll;
   flex-shrink: 0;
 }
 
-.past-breaks-list .list-title {
-  /* Added title style */
+.past-breaks-list {
   font-size: 1em;
   font-weight: 600;
   color: #333;
@@ -200,6 +216,14 @@ body {
   margin-bottom: 10px;
   border-bottom: 1px solid #e9ecef;
   padding-bottom: 5px;
+}
+
+.list-title {
+  font-size: 0.8em;
+  font-weight: 600;
+  color: #333;
+  margin: 15px 10px 5px 10px;
+  flex-shrink: 0;
 }
 
 .past-break-item {
@@ -248,8 +272,7 @@ body {
   padding: 15px;
   flex-grow: 1;
   overflow-y: scroll;
-  min-height: 20vh;
-  max-height: 22vh;
+  max-height: 17vh;
 }
 
 .activity-feed-item {

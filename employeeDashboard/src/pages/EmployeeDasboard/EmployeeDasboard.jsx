@@ -1,5 +1,4 @@
-// src/pages/EmployeeDashboard/EmployeeDashboard.jsx
-import React, { useEffect, useState } from "react"; // Import useState
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchEmployeeDashboardData,
@@ -9,7 +8,7 @@ import {
   employeeFinalCheckOut,
 } from "../../redux/slices/employeeDashboardSlice";
 
-import "./EmployeeDashboardStyle.css"; // Mobile-first styling
+import "./EmployeeDashboardStyle.css";
 
 const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
   const dispatch = useDispatch();
@@ -19,18 +18,6 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
 
   // State for displaying success/error messages
   const [displayMessage, setDisplayMessage] = useState({ text: "", type: "" });
-
-  // Function to get the time-based greeting for the dashboard
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) {
-      return "Good Morning";
-    } else if (hour < 18) {
-      return "Good Afternoon";
-    } else {
-      return "Good Evening";
-    }
-  };
 
   // Fetch data on mount and set up refresh interval
   useEffect(() => {
@@ -51,7 +38,7 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
     if (displayMessage.text) {
       const timer = setTimeout(() => {
         setDisplayMessage({ text: "", type: "" });
-      }, 3000); // Message visible for 3s
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, [displayMessage.text]);
@@ -77,26 +64,28 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
     });
   };
 
-  // Helper to format activity time (e.g., "1 hour ago")
-  const formatActivityTime = (dateString) => {
-    if (!dateString) return "";
+  // Helper to format time ("5 minutes ago"")
+  const formatTimeAgo = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
-    const diffSeconds = Math.round(diffMs / 1000);
-    const diffMinutes = Math.round(diffSeconds / 60);
-    const diffHours = Math.round(diffMinutes / 60);
-    const diffDays = Math.round(diffMinutes / (60 * 24));
+    const diffMinutes = Math.round(diffMs / (1000 * 60));
+    const diffHours = Math.round(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
 
-    if (diffSeconds < 60)
-      return `${diffSeconds} second${diffSeconds !== 1 ? "s" : ""} ago`;
+    if (diffMinutes < 1) return "just now";
     if (diffMinutes < 60)
-      return `${diffMinutes} minute${diffMinutes !== 1 ? "s" : ""} ago`;
+      return `${diffMinutes} minute${diffMinutes > 1 ? "s" : ""} ago`;
     if (diffHours < 24)
-      return `${diffHours} hour${diffHours !== 1 ? "s" : ""} ago`;
-    if (diffDays < 7) return `${diffDays} day${diffDays !== 1 ? "s" : ""} ago`;
+      return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
+    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
 
-    return dateString;
+    // Fallback to local date string=
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
   };
 
   // Derived states for button logic based on currentTiming from Redux
@@ -104,7 +93,7 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
   const isCurrentlyCheckedInAndWorking =
     hasCheckedInToday && !currentTiming.finalCheckOut && !currentTiming.onBreak;
   const isCurrentlyOnBreak = currentTiming.onBreak;
-  const isCheckedOutForDay = !!currentTiming.finalCheckOut; // True if finalCheckOut exists for today
+  const hasCheckedOutForDay = !!currentTiming.finalCheckOut; // True if finalCheckOut exists for today
 
   // Handlers for attendance actions
   const handleCheckIn = () => {
@@ -154,11 +143,13 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
   return (
     <div className="employee-dashboard-content">
       {/* Message Display Area */}
-      {displayMessage.text && (
-        <div className={`app-message ${displayMessage.type}`}>
-          {displayMessage.text}
-        </div>
-      )}
+      <div className="message-display-section">
+        {displayMessage.text && (
+          <div className={`app-message ${displayMessage.type}`}>
+            {displayMessage.text}
+          </div>
+        )}
+      </div>
 
       {/* Attendance Action Buttons */}
       <div className="attendance-actions">
@@ -237,35 +228,37 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
           </div>
           <div
             className={`status-indicator ${
-              isCurrentlyOnBreak ? "status-red" : "status-gray"
+              isCurrentlyOnBreak ? "status-green" : "status-gray"
             }`}
           ></div>
         </div>
 
         {/* Past Break Records */}
-        <div className="past-breaks-list">
+        <div className="break-section">
           <h4 className="list-title">Past Breaks</h4>
-          {pastBreaks.length > 0 ? (
-            pastBreaks.map((b, index) => (
-              <div className="past-break-item" key={index}>
-                <span className="break-time-label">Start</span>
-                <span className="break-time-value">
-                  {formatTime(b.breakStart)}
-                </span>
-                <span className="break-time-label">End</span>
-                <span className="break-time-value">
-                  {formatTime(b.breakEnd)}
-                </span>
-                <span className="break-date-label">Date</span>
-                <span className="break-date-value">
-                  {formatDate(b.date)}
-                </span>{" "}
-                {/* Use the date from the attendance record */}
-              </div>
-            ))
-          ) : (
-            <p className="no-records-message">No past break records.</p>
-          )}
+          <div className="past-breaks-list">
+            {pastBreaks.length > 0 ? (
+              pastBreaks.map((b, index) => (
+                <div className="past-break-item" key={index}>
+                  <span className="break-time-label">Start</span>
+                  <span className="break-time-value">
+                    {formatTime(b.breakStart)}
+                  </span>
+                  <span className="break-time-label">End</span>
+                  <span className="break-time-value">
+                    {formatTime(b.breakEnd)}
+                  </span>
+                  <span className="break-date-label">Date</span>
+                  <span className="break-date-value">
+                    {formatDate(b.date)}
+                  </span>{" "}
+                  {/* Use the date from the attendance record */}
+                </div>
+              ))
+            ) : (
+              <p className="no-records-message">No past break records.</p>
+            )}
+          </div>
         </div>
       </div>
 
@@ -277,7 +270,9 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
             recentActivities.map((activity, index) => (
               <div className="activity-feed-item" key={index}>
                 <p className="activity-text">{activity.activity}</p>
-                <span className="activity-time">{activity.timestamp}</span>
+                <div className="activity-time">
+                  {formatTimeAgo(activity.timestamp)}
+                </div>
               </div>
             ))
           ) : (
