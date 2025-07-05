@@ -332,7 +332,7 @@ const employeeStartBreak = async (req, res) => {
     ) {
       return res.status(400).json({
         message:
-          "Cannot start break: Employee is not checked in or already checked out.",
+          "Cannot start break: Employee not checked in or already checked out.",
       });
     }
 
@@ -347,7 +347,7 @@ const employeeStartBreak = async (req, res) => {
     const lastBreak = attendance.breaks[attendance.breaks.length - 1];
     if (lastBreak && lastBreak.breakEnd === null) {
       return res.status(400).json({
-        message: "Cannot start break: Employee is already on an active break.",
+        message: "Cannot start break: Employee already on a break.",
       });
     }
 
@@ -359,7 +359,7 @@ const employeeStartBreak = async (req, res) => {
     await employee.save();
     await attendance.save();
 
-    res.status(200).json({ message: "Break started!", attendance });
+    res.status(200).json({ message: "Break started...", attendance });
   } catch (error) {
     console.error("Error during employee start break:", error);
     res.status(500).json({ message: "Server error: Could not start break." });
@@ -502,10 +502,10 @@ const getEmployeeRecentActivities = async (req, res) => {
         Math.abs(lead.createdAt.getTime() - lead.updatedAt.getTime()) < 1000;
 
       if (isCreationAndAssignment) {
-        description = `You were assigned a new lead: '${lead.name}'.`;
+        description = `You were assigned a new lead: ${lead.name}`;
         relevantTimestamp = lead.createdAt;
       } else if (lead.status === "Closed") {
-        description = `You closed lead: '${lead.name}'.`;
+        description = `You closed lead: ${lead.name}`;
         relevantTimestamp = lead.updatedAt;
       }
 
