@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import EmployeeDashboard from "./pages/EmployeeDasboard/EmployeeDasboard";
 import LoginPage from "./pages/Login/Login";
 import ProfilePage from "./pages/Profile/Profile";
@@ -12,7 +12,6 @@ import BottomNavBar from "./components/layout/BottomNavBar/BottomNavBar";
 import "./App.css";
 
 function App() {
-  const dispatch = useDispatch();
   const { isAuthenticated, employeeInfo } = useSelector((state) => state.auth);
   const [activePage, setActivePage] = useState(
     isAuthenticated ? "Home" : "Login"

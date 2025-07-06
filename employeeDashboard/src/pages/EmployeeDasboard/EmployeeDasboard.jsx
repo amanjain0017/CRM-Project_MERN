@@ -8,6 +8,8 @@ import {
   employeeFinalCheckOut,
 } from "../../redux/slices/employeeDashboardSlice";
 
+import { logoutEmployee } from "../../redux/slices/authSlice";
+
 import "./EmployeeDashboardStyle.css";
 
 const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
@@ -19,18 +21,11 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
   // State for displaying success/error messages
   const [displayMessage, setDisplayMessage] = useState({ text: "", type: "" });
 
-  // Fetch data on mount and set up refresh interval
+  // Fetch data on mount or change
   useEffect(() => {
     if (employeeId) {
       dispatch(fetchEmployeeDashboardData(employeeId));
     }
-    const refreshInterval = setInterval(() => {
-      if (employeeId) {
-        dispatch(fetchEmployeeDashboardData(employeeId));
-      }
-    }, 30000); // Refresh every 30 seconds
-
-    return () => clearInterval(refreshInterval);
   }, [dispatch, employeeId]);
 
   // Effect to clear messages after a few seconds
@@ -45,7 +40,7 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
 
   // Helper to format time (e.g., "9:15 AM")
   const formatTime = (dateString) => {
-    if (!dateString) return "---";
+    if (!dateString) return "";
     return new Date(dateString).toLocaleTimeString("en-IN", {
       hour: "2-digit",
       minute: "2-digit",
@@ -89,17 +84,20 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
   };
 
   // Derived states for button logic based on currentTiming from Redux
-  const hasCheckedInToday = !!currentTiming?.firstCheckIn; // True if firstCheckIn exists for today
+  const hasCheckedInToday = !!currentTiming?.checkIn;
+  const hasCheckedOutForDay = !!currentTiming?.checkOut;
+  const isCurrentlyOnBreak = currentTiming?.onBreak;
   const isCurrentlyCheckedInAndWorking =
-    hasCheckedInToday && !currentTiming.finalCheckOut && !currentTiming.onBreak;
-  const isCurrentlyOnBreak = currentTiming.onBreak;
-  const hasCheckedOutForDay = !!currentTiming.finalCheckOut; // True if finalCheckOut exists for today
+    hasCheckedInToday && !hasCheckedOutForDay && !isCurrentlyOnBreak;
 
   // Handlers for attendance actions
   const handleCheckIn = () => {
     dispatch(employeeCheckIn(employeeId))
       .unwrap()
-      .then((res) => setDisplayMessage({ text: res.message, type: "success" }))
+      .then((res) => {
+        setDisplayMessage({ text: res.message, type: "success" });
+        dispatch(fetchEmployeeDashboardData(employeeId));
+      })
       .catch((err) =>
         setDisplayMessage({ text: `Error: ${err}`, type: "error" })
       );
@@ -108,7 +106,10 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
   const handleStartBreak = () => {
     dispatch(employeeStartBreak(employeeId))
       .unwrap()
-      .then((res) => setDisplayMessage({ text: res.message, type: "success" }))
+      .then((res) => {
+        setDisplayMessage({ text: res.message, type: "success" });
+        dispatch(fetchEmployeeDashboardData(employeeId));
+      })
       .catch((err) =>
         setDisplayMessage({ text: `Error: ${err}`, type: "error" })
       );
@@ -117,7 +118,10 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
   const handleEndBreak = () => {
     dispatch(employeeEndBreak(employeeId))
       .unwrap()
-      .then((res) => setDisplayMessage({ text: res.message, type: "success" }))
+      .then((res) => {
+        setDisplayMessage({ text: res.message, type: "success" });
+        dispatch(fetchEmployeeDashboardData(employeeId));
+      })
       .catch((err) =>
         setDisplayMessage({ text: `Error: ${err}`, type: "error" })
       );
@@ -126,13 +130,18 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
   const handleFinalCheckOut = () => {
     dispatch(employeeFinalCheckOut(employeeId))
       .unwrap()
-      .then((res) => setDisplayMessage({ text: res.message, type: "success" }))
+      .then((res) => {
+        setDisplayMessage({ text: res.message, type: "success" });
+        dispatch(fetchEmployeeDashboardData(employeeId));
+
+        dispatch(logoutEmployee());
+      })
       .catch((err) =>
         setDisplayMessage({ text: `Error: ${err}`, type: "error" })
       );
   };
 
-  if (isLoading && !employeeProfile && !currentTiming.firstCheckIn) {
+  if (isLoading && !employeeProfile && !currentTiming.checkIn) {
     return <div className="loading-screen">Loading dashboard...</div>;
   }
 
@@ -155,45 +164,31 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
       <div className="attendance-actions">
         <button
           onClick={handleCheckIn}
-          // Enabled if: Not checked in today OR (checked in but checked out for day) OR (checked in and on break - to resume work)
-          // Disabled if: Currently checked in AND working AND NOT checked out for day AND NOT on break
-          // disabled={
-          //   isCurrentlyCheckedInAndWorking ||
-          //   isCurrentlyOnBreak ||
-          //   isCheckedOutForDay
-          // }
+          disabled={hasCheckedInToday}
           className="action-button check-in-button"
         >
           Check In
         </button>
+
         <button
           onClick={handleStartBreak}
-          // Enabled only if: Currently checked in AND working
-          // disabled={
-          //   !isCurrentlyCheckedInAndWorking ||
-          //   isCurrentlyOnBreak ||
-          //   isCheckedOutForDay
-          // }
+          disabled={!isCurrentlyCheckedInAndWorking}
           className="action-button break-button"
         >
           Start Break
         </button>
+
         <button
           onClick={handleEndBreak}
-          // Enabled only if: Currently on break
-          // disabled={!isCurrentlyOnBreak || isCheckedOutForDay}
+          disabled={!isCurrentlyOnBreak}
           className="action-button end-break-button"
         >
           End Break
         </button>
+
         <button
           onClick={handleFinalCheckOut}
-          // Enabled only if: Currently checked in AND working
-          // disabled={
-          //   !isCurrentlyCheckedInAndWorking ||
-          //   isCurrentlyOnBreak ||
-          //   isCheckedOutForDay
-          // }
+          disabled={!isCurrentlyCheckedInAndWorking}
           className="action-button check-out-button"
         >
           Check Out
@@ -203,27 +198,34 @@ const EmployeeDashboard = ({ employeeId, employeeProfile }) => {
       {/* Timings Section */}
       <div className="timings-section">
         {/* Check-in / Check-out display card */}
-        <div className="timing-card online-status">
-          <div className="timing-label">Checked in to Canova Platform :</div>
+        <div className="timing-card checkedin-card">
+          <div className="timing-label">Check-in :</div>
+          <div className="timing-value">
+            {formatTime(currentTiming?.checkIn)}
+          </div>
+
+          <div className="timing-label">Check-out :</div>
+          <div className="timing-value">
+            {formatTime(currentTiming?.checkOut)}
+          </div>
+
           <div
-            id="online"
             className={`status-indicator ${
-              currentTiming.isActive ? "status-green" : "status-red"
+              currentTiming?.isActive ? "status-green" : "status-red"
             }`}
           ></div>
         </div>
 
         {/* Break display card */}
         <div className="timing-card break-card">
-          <div className="timing-label">Break</div>
+          <div className="timing-label">Break :</div>
           <div className="timing-value">
             {formatTime(currentTiming?.breakStartTime)}
           </div>
-          <div className="timing-label">Ended</div>
-          {/* Only show end time if break is actually ended. If on break, show '---' */}
+          <div className="timing-label">Ended :</div>
           <div className="timing-value">
             {currentTiming.onBreak
-              ? "---"
+              ? "(on a break)"
               : formatTime(currentTiming?.breakEndTime)}
           </div>
           <div

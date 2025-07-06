@@ -10,9 +10,7 @@ import "./Leads.css";
 
 const LeadsPage = ({ employeeId }) => {
   const dispatch = useDispatch();
-  const { leads, isLoading, error, filterStatus } = useSelector(
-    (state) => state.leads
-  );
+  const { leads, error, filterStatus } = useSelector((state) => state.leads);
 
   //for managning local search bar
   const [localSearch, setLocalSearch] = useState("");
@@ -29,11 +27,23 @@ const LeadsPage = ({ employeeId }) => {
   // schedule form
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
-  const [derivedScheduledType, setDerivedScheduledType] = useState("");
+
+  //display success/error messages
+  const [displayMessage, setDisplayMessage] = useState({ text: "", type: "" });
 
   // Refs to handle clicks outside
   const updateDropdownRef = useRef(null);
   const scheduleDropdownRef = useRef(null);
+
+  //make message disappear
+  useEffect(() => {
+    if (displayMessage.text) {
+      const timer = setTimeout(() => {
+        setDisplayMessage({ text: "", type: "" });
+      }, 2000); // hide after 2s
+      return () => clearTimeout(timer);
+    }
+  }, [displayMessage.text]);
 
   // Fetch leads when component mounts or filters/search change
   useEffect(() => {
@@ -102,6 +112,27 @@ const LeadsPage = ({ employeeId }) => {
     const updateData = {};
     const selectedLead = leads.find((l) => l._id === leadId);
 
+    if (
+      currentLeadStatus === "Closed" &&
+      selectedLead.scheduledDate &&
+      selectedLead.scheduledTime
+    ) {
+      const scheduledDateTime = new Date(selectedLead.scheduledDate);
+      const [hours, minutes] = selectedLead.scheduledTime
+        .split(":")
+        .map(Number);
+      scheduledDateTime.setHours(hours, minutes, 0, 0);
+
+      const now = new Date();
+      if (scheduledDateTime.getTime() > now.getTime()) {
+        setDisplayMessage({
+          text: "Cannot close lead with a future scheduled activity.",
+          type: "error",
+        });
+        return;
+      }
+    }
+
     if (currentLeadType !== selectedLead.leadType) {
       updateData.leadType = currentLeadType;
     }
@@ -113,20 +144,21 @@ const LeadsPage = ({ employeeId }) => {
       dispatch(updateLead({ leadId, updateData }))
         .unwrap()
         .then(() => {
-          alert("Lead updated successfully!");
+          setDisplayMessage({
+            text: "Lead updated successfully.",
+            type: "success",
+          });
           setActiveUpdateDropdownId(null);
-          dispatch(
-            fetchEmployeeLeads({
-              employeeId,
-              status: filterStatus,
-            })
-          );
+          dispatch(fetchEmployeeLeads({ employeeId, status: filterStatus }));
         })
         .catch((err) => {
-          alert(`Failed to update lead: ${err}`);
+          setDisplayMessage({
+            text: `Failed to update lead: ${err}`,
+            type: "error",
+          });
         });
     } else {
-      alert("No changes to update.");
+      setDisplayMessage({ text: "No changes to update.", type: "error" });
       setActiveUpdateDropdownId(null);
     }
   };
@@ -144,32 +176,20 @@ const LeadsPage = ({ employeeId }) => {
       const date = lead.scheduledDate ? new Date(lead.scheduledDate) : null;
       setScheduleDate(date ? date.toISOString().split("T")[0] : "");
       setScheduleTime(lead.scheduledTime || "");
-
-      setDerivedScheduledType(deriveScheduledType(lead));
-    }
-  };
-
-  const deriveScheduledType = (lead) => {
-    if (!lead.email) {
-      return "Cold Call";
-    } else if (!lead.phone) {
-      return "Referral";
-    } else if (lead.leadType === "Cold Call") {
-      return "Cold Call";
-    } else {
-      return "Referral";
     }
   };
 
   const resetScheduleForm = () => {
     setScheduleDate("");
     setScheduleTime("");
-    setDerivedScheduledType("");
   };
 
   const handleScheduleSave = (leadId) => {
     if (!scheduleDate || !scheduleTime) {
-      alert("Please select both a future date and time for the activity.");
+      setDisplayMessage({
+        text: "Please select both a future date and time.",
+        type: "error",
+      });
       return;
     }
 
@@ -184,14 +204,20 @@ const LeadsPage = ({ employeeId }) => {
       selectedDateObj < today &&
       selectedDateObj.toDateString() !== today.toDateString()
     ) {
-      alert("Scheduled date cannot be in the past.");
+      setDisplayMessage({
+        text: "Scheduled date cannot be in the past.",
+        type: "error",
+      });
       return;
     }
     // If it's today, ensure time is not in the past
     if (selectedDateObj.toDateString() === today.toDateString()) {
       const now = new Date();
       if (selectedDateObj.getTime() < now.getTime()) {
-        alert("Scheduled time cannot be in the past for today's date.");
+        setDisplayMessage({
+          text: "Scheduled time cannot be in the past for today's date.",
+          type: "error",
+        });
         return;
       }
     }
@@ -199,24 +225,24 @@ const LeadsPage = ({ employeeId }) => {
     const updateData = {
       scheduledDate: selectedDateObj.toISOString(), // ISO string
       scheduledTime: scheduleTime, // "HH:MM"
-      scheduledType: derivedScheduledType, // from frontend
     };
 
     dispatch(updateLead({ leadId, updateData }))
       .unwrap()
       .then(() => {
-        alert(`Activity scheduled for lead!`);
+        setDisplayMessage({
+          text: "Activity scheduled for lead.",
+          type: "success",
+        });
         setActiveScheduleDropdownId(null);
         resetScheduleForm();
-        dispatch(
-          fetchEmployeeLeads({
-            employeeId,
-            status: filterStatus,
-          })
-        );
+        dispatch(fetchEmployeeLeads({ employeeId, status: filterStatus }));
       })
       .catch((err) => {
-        alert(`Failed to schedule activity: ${err}`);
+        setDisplayMessage({
+          text: `Failed to schedule activity: ${err}`,
+          type: "error",
+        });
       });
   };
 
@@ -245,6 +271,15 @@ const LeadsPage = ({ employeeId }) => {
         </select>
       </div>
 
+      {/* Message Display Area */}
+      <div className="message-display-section">
+        {displayMessage.text && (
+          <div className={`lead-message ${displayMessage.type}`}>
+            {displayMessage.text}
+          </div>
+        )}
+      </div>
+
       <div className="leads-list">
         {leads.length > 0 ? (
           leads.map((lead) => (
@@ -253,7 +288,9 @@ const LeadsPage = ({ employeeId }) => {
                 <h4 className="lead-name">{lead.name}</h4>
                 <p className="lead-detail">Email: {lead.email || "N/A"}</p>
                 <p className="lead-detail">Phone: {lead.phone || "N/A"}</p>
-                <p className="lead-detail">Status: {lead.status || "N/A"}</p>
+                <p className="lead-detail">
+                  Status: {lead.status === "Pending" ? "Ongoing" : "Closed"}
+                </p>
 
                 {/* Updated to use lead-type-badge */}
                 <p className="lead-detail">
@@ -277,9 +314,17 @@ const LeadsPage = ({ employeeId }) => {
                   }
                 >
                   <button
-                    onClick={() => toggleUpdateDropdown(lead)}
+                    onClick={() => {
+                      if (lead.status === "Closed") {
+                        setDisplayMessage({
+                          text: "Closed leads cannot be updated.",
+                          type: "error",
+                        });
+                      } else {
+                        toggleUpdateDropdown(lead);
+                      }
+                    }}
                     className="action-button update-button"
-                    disabled={lead.status === "Closed"}
                   >
                     Update
                   </button>
@@ -332,9 +377,17 @@ const LeadsPage = ({ employeeId }) => {
                   }
                 >
                   <button
-                    onClick={() => toggleScheduleDropdown(lead)}
+                    onClick={() => {
+                      if (lead.status === "Closed") {
+                        setDisplayMessage({
+                          text: "Closed leads cannot be scheduled.",
+                          type: "error",
+                        });
+                      } else {
+                        toggleScheduleDropdown(lead);
+                      }
+                    }}
                     className="action-button schedule-button"
-                    disabled={lead.status === "Closed"}
                   >
                     Schedule
                   </button>

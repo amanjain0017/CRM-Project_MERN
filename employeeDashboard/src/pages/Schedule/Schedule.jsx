@@ -16,6 +16,9 @@ const SchedulePage = ({ employeeId }) => {
   //for managning local search bar
   const [localSearch, setLocalSearch] = useState("");
 
+  //deriving scheduled type
+  // const [derivedScheduledType, setDerivedScheduledType] = useState("");
+
   // Filter leads to show scheduled ones and apply 'Today' filter
   const filteredScheduledLeads = leads.filter((lead) => {
     const isScheduled = lead.scheduledDate && lead.scheduledTime;
@@ -28,6 +31,18 @@ const SchedulePage = ({ employeeId }) => {
     }
     return true;
   });
+
+  const deriveScheduledType = (lead) => {
+    if (!lead.email) {
+      return "Cold Call";
+    } else if (!lead.phone) {
+      return "Referral";
+    } else if (lead.leadType === "Cold Call") {
+      return "Cold Call";
+    } else {
+      return "Referral";
+    }
+  };
 
   useEffect(() => {
     if (employeeId) {
@@ -83,9 +98,18 @@ const SchedulePage = ({ employeeId }) => {
         {filteredScheduledLeads.length > 0 ? (
           filteredScheduledLeads.map((lead) => (
             <div key={lead._id} className="scheduled-lead-card">
-              <h4 className="lead-name">{lead.name}</h4>
-              <p className="lead-contact">Email: {lead.email || "N/A"}</p>
-              <p className="lead-contact">Phone: {lead.phone || "N/A"}</p>
+              <h4 className="lead-name">{deriveScheduledType(lead)}</h4>
+              <p className="lead-contact">Name: {lead.name || "N/A"}</p>
+              {lead.email ? (
+                <p className="lead-contact">Email: {lead.email}</p>
+              ) : (
+                ""
+              )}
+              {lead.phone ? (
+                <p className="lead-contact">Phone: {lead.phone}</p>
+              ) : (
+                ""
+              )}
               <p className="lead-contact">Language: {lead.language || "N/A"}</p>
               <p className="lead-contact">Location: {lead.location || "N/A"}</p>
               <p className="lead-schedule">
