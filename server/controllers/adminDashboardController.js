@@ -179,70 +179,72 @@ const getRecentActivities = async (req, res) => {
 // GET /api/admin/dashboard/daily-closed-leads
 const getDailyClosedLeads = async (req, res) => {
   try {
-    // timeframe (Last 14 Days)
-    const fourteenDaysAgo = new Date();
-    fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+    // Create UTC boundaries
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
 
-    // MongoDB Aggregation Pipeline
-    // Example output from aggregation :  [ { date: '2025-06-25', count: 5 }, { date: '2025-06-26', count: 3 }, ... ]
+    const startDate = new Date(today);
+    startDate.setUTCDate(startDate.getUTCDate() - 13); // Last 14 days including today
+
+    const endDate = new Date(today);
+    endDate.setUTCHours(23, 59, 59, 999);
+
     const dailyClosedLeads = await Lead.aggregate([
       {
-        // Stage 1: $match - Filter Documents that meet specific criteria
         $match: {
           status: "Closed",
-          updatedAt: { $gte: fourteenDaysAgo }, // Filter by updated within last 14 days
+          updatedAt: { $gte: startDate, $lte: endDate },
         },
       },
       {
-        // Stage 2: $group - Group Documents (updatededAt) and Apply Accumulators (count)
         $group: {
           _id: {
-            $dateToString: { format: "%Y-%m-%d", date: "$updatedAt" }, // Formats date to "YYYY-MM-DD" string
+            year: { $year: "$updatedAt" },
+            month: { $month: "$updatedAt" },
+            day: { $dayOfMonth: "$updatedAt" },
           },
-          count: { $sum: 1 }, // Counts leads for each day
+          count: { $sum: 1 },
         },
       },
       {
-        // Stage 3: $sort - Sort Documents
-        $sort: {
-          _id: 1, // Sort by the date string (which is our _id)
-        },
-      },
-      {
-        // Stage 4: $project - Reshape Documents (to be more readable and directly usable by the frontend)
         $project: {
-          _id: 0, // Exclude the default _id field
-          date: "$_id", // Rename _id (the date string) to 'date'
-          count: 1, // Include the count
+          _id: 0,
+          date: {
+            $dateFromParts: {
+              year: "$_id.year",
+              month: "$_id.month",
+              day: "$_id.day",
+            },
+          },
+          count: 1,
         },
+      },
+      {
+        $sort: { date: 1 },
       },
     ]);
 
-    // Fill Missing Dates with Zero Count for Continuous Chart Data
-    const filledData = [];
-    let currentDate = new Date(fourteenDaysAgo); // Initialize start date (14 days ago)
-    currentDate.setHours(0, 0, 0, 0); // beginning of that day
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // beginning of the current day
-
-    // Create a Map for quick lookup of counts for specific dates.
+    // Format to YYYY-MM-DD string for frontend
     const dataMap = new Map(
-      dailyClosedLeads.map((item) => [item.date, item.count])
+      dailyClosedLeads.map((item) => [
+        new Date(item.date).toISOString().slice(0, 10),
+        item.count,
+      ])
     );
 
-    // Loop from the start date (14 days ago) up to and including the current day.
-    while (currentDate <= today) {
-      // Format the current date to "YYYY-MM-DD" to match the aggregation output.
-      const dateString = currentDate.toISOString().slice(0, 10);
+    // Fill missing dates
+    const filledData = [];
+    const loopDate = new Date(startDate);
+
+    while (loopDate <= endDate) {
+      const dateStr = loopDate.toISOString().slice(0, 10);
       filledData.push({
-        date: dateString,
-        count: dataMap.get(dateString) || 0, // Get the count from the map, or default to 0
+        date: dateStr,
+        count: dataMap.get(dateStr) || 0,
       });
-      currentDate.setDate(currentDate.getDate() + 1); // Move to next day
+      loopDate.setUTCDate(loopDate.getUTCDate() + 1);
     }
 
-    // Send final array of daily closed lead counts
     res.json(filledData);
   } catch (error) {
     console.error("Error fetching daily closed leads:", error);

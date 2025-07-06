@@ -50,6 +50,8 @@ const SalesChart = () => {
     );
   }
 
+  // console.log(dailyClosedLeads);
+
   return (
     <div className="sales-chart-container">
       <h3 className="dashboard-section-title">Sales Analytics</h3>

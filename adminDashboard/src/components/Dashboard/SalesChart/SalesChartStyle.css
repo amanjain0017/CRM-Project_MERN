@@ -4,7 +4,7 @@
   padding: 24px;
   display: flex;
   flex-direction: column;
-  height: 400px;
+  max-height: 300px;
   flex-shrink: 0;
 }
 
