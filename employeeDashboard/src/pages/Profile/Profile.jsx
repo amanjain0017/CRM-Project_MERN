@@ -39,6 +39,10 @@ const Profile = ({ employeeId, employeeProfile }) => {
   }
 
   if (error) {
+    if (error.toLowerCase().includes("employee not found")) {
+      dispatch(logoutEmployee());
+    }
+
     return <div className="error-screen">Error: {error}</div>;
   }
 

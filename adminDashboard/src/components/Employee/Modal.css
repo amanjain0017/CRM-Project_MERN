@@ -70,7 +70,6 @@
   font-size: 13px;
   font-weight: 500;
   color: #444;
-  margin-bottom: 6px;
 }
 
 .form-input {
@@ -92,8 +91,16 @@
 }
 
 .error-message {
-  color: #ef4444;
-  font-size: 12px;
+  color: red;
+  font-size: 0.85rem;
+  background-color: white;
+  padding: 0;
+  text-align: left;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  margin: 0;
 }
 
 .info-message {

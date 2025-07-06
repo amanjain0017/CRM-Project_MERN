@@ -32,8 +32,6 @@ const attendanceSchema = mongoose.Schema(
     date: {
       type: Date,
       required: true,
-      // Ensure only one attendance record per employee per day
-      unique: true,
       index: true, // Index for faster date lookups
     },
     firstCheckIn: {

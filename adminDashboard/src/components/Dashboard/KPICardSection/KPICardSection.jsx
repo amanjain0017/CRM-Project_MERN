@@ -44,7 +44,7 @@ const KPICardSection = () => {
         {
           title: "Active Employees",
           value: summary.activeEmployees,
-          description: "Currently active/online employees",
+          description: "Currently online employees",
         },
         {
           title: "Overall Conversion Rate",

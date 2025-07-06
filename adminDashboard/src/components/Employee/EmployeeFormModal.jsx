@@ -78,7 +78,7 @@ const EmployeeFormModal = ({ employee, onClose, onSave }) => {
               className={`form-input ${errors.firstName ? "input-error" : ""}`}
             />
             {errors.firstName && (
-              <p className="error-message">{errors.firstName}</p>
+              <span className="error-message">{errors.firstName}</span>
             )}
           </div>
 
@@ -95,7 +95,7 @@ const EmployeeFormModal = ({ employee, onClose, onSave }) => {
               disabled={isEditMode} // Disable to visually indicate it's not editable
             />
             {errors.lastName && (
-              <p className="error-message">{errors.lastName}</p>
+              <span className="error-message">{errors.lastName}</span>
             )}
             {isEditMode && (
               <p className="info-message">Last name cannot be changed.</p>
@@ -112,7 +112,9 @@ const EmployeeFormModal = ({ employee, onClose, onSave }) => {
               onChange={handleChange}
               className={`form-input ${errors.email ? "input-error" : ""}`}
             />
-            {errors.email && <p className="error-message">{errors.email}</p>}
+            {errors.email && (
+              <span className="error-message">{errors.email}</span>
+            )}
           </div>
 
           <div className="form-group">
@@ -133,7 +135,7 @@ const EmployeeFormModal = ({ employee, onClose, onSave }) => {
               ))}
             </select>
             {errors.language && (
-              <p className="error-message">{errors.language}</p>
+              <span className="error-message">{errors.language}</span>
             )}
 
             {isEditMode && (
@@ -159,7 +161,7 @@ const EmployeeFormModal = ({ employee, onClose, onSave }) => {
               ))}
             </select>
             {errors.location && (
-              <p className="error-message">{errors.location}</p>
+              <span className="error-message">{errors.location}</span>
             )}
 
             {isEditMode && (

@@ -39,7 +39,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 6px 0px 5px 0px;
+  margin: 0;
 }
 
 .app-message {

@@ -8,6 +8,8 @@ import {
 } from "../../redux/slices/leadSlice";
 import "./Leads.css";
 
+import { logoutEmployee } from "../../redux/slices/authSlice";
+
 const LeadsPage = ({ employeeId }) => {
   const dispatch = useDispatch();
   const { leads, error, filterStatus } = useSelector((state) => state.leads);
@@ -247,6 +249,10 @@ const LeadsPage = ({ employeeId }) => {
   };
 
   if (error) {
+    if (error.toLowerCase().includes("employee not found")) {
+      dispatch(logoutEmployee());
+    }
+
     return <div className="error-screen">Error: {error}</div>;
   }
 
