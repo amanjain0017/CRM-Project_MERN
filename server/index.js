@@ -6,6 +6,11 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 
+const allowedOrigins = [
+  "https://canovaadmin.netlify.app",
+  "https://canovaemployee.netlify.app",
+];
+
 //mongoDB Connection
 require("./db/connection");
 
@@ -20,7 +25,19 @@ const employeeAuthRoutes = require("./routes/employeeAuthRoutes"); //employee au
 const employeeRoutes = require("./routes/employeeRoutes"); //employee specific routes
 
 //Middlewares
-app.use(cors());
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed"));
+      }
+    },
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
